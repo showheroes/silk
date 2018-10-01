@@ -119,7 +119,11 @@ class SilkyMiddleware(MiddlewareMixin):
                 silk_response = ResponseModelFactory(response).construct_response_model()
                 silk_response.save()
                 silk_request.end_time = timezone.now()
-                collector.finalise()
+                try:
+                    collector.finalise()
+                except Exception as e:
+                    Logger.exception('XXXX profiler fail')
+                    raise e
             else:
                 Logger.error(
                     'No request model was available when processing response. '
