@@ -111,25 +111,24 @@ class SilkyMiddleware(MiddlewareMixin):
     @transaction.atomic()
     def _process_response(self, request, response):
         Logger.debug('Process response')
-        with silk_meta_profiler():
-            collector = DataCollector()
-            collector.stop_python_profiler()
-            silk_request = collector.request
-            if silk_request:
-                silk_response = ResponseModelFactory(response).construct_response_model()
-                silk_response.save()
-                silk_request.end_time = timezone.now()
-                try:
-                    collector.finalise()
-                except Exception as e:
-                    Logger.exception('XXXX profiler fail')
-                    raise e
-            else:
-                Logger.error(
-                    'No request model was available when processing response. '
-                    'Did something go wrong in process_request/process_view?'
-                    '\n' + str(request) + '\n\n' + str(response)
-                )
+        collector = DataCollector()
+        collector.stop_python_profiler()
+        silk_request = collector.request
+        if silk_request:
+            silk_response = ResponseModelFactory(response).construct_response_model()
+            silk_response.save()
+            silk_request.end_time = timezone.now()
+            try:
+                collector.finalise()
+            except Exception as e:
+                Logger.exception('XXXX profiler fail')
+                raise e
+        else:
+            Logger.error(
+                'No request model was available when processing response. '
+                'Did something go wrong in process_request/process_view?'
+                '\n' + str(request) + '\n\n' + str(response)
+            )
         # Need to save the data outside the silk_meta_profiler
         # Otherwise the  meta time collected in the context manager
         # is not taken in account
