@@ -1,5 +1,16 @@
 # Silk
 
+## Archived Repository
+This repository has been archived and is no longer maintained.
+
+## Reason for Archiving
+- This fork is no longer actively maintained because the changes have been merged into the main repository.
+## Important Notes
+- This repository is read-only.
+- No further updates, issues, or pull requests will be accepted.
+## Access the Main Repository
+- If you are looking for the active development and latest updates, please visit the [main repository](https://github.com/jazzband/django-silk).
+
 ====
 
 *Silk has now moved to the [Jazzband](https://jazzband.co/) organization and is looking for contributors - if you think you can help out, please get in touch!*
